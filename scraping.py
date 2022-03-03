@@ -1,4 +1,4 @@
-# Import Splinter, BeautifulSoup, and Pandas
+# Imports
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 import pandas as pd
@@ -90,7 +90,7 @@ def mars_facts():
 
     # Add try/except for error handling
     try:
-        
+
         # Use 'read_html' to scrape the facts table into a dataframe
         df = pd.read_html('https://data-class-mars-facts.s3.amazonaws.com/Mars_Facts/index.html')[0]
 
