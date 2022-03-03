@@ -1,4 +1,4 @@
-# Imports
+# Import Splinter, BeautifulSoup, and Pandas
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 import pandas as pd
@@ -7,7 +7,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 def scrape_all():
-
     # Initiate headless driver for deployment
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=True)
@@ -45,10 +44,8 @@ def mars_news(browser):
     # Add try/except for error handling
     try:
         slide_elem = news_soup.select_one('div.list_text')
-
         # Use the parent element to find the first 'a' tag and save it as 'news_title'
         news_title = slide_elem.find('div', class_='content_title').get_text()
-
         # Use the parent element to find the paragraph text
         news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
 
@@ -59,7 +56,6 @@ def mars_news(browser):
 
 
 def featured_image(browser):
-
     # Visit URL
     url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html'
     browser.visit(url)
@@ -74,7 +70,6 @@ def featured_image(browser):
 
     # Add try/except for error handling
     try:
-
         # Find the relative image url
         img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
 
@@ -87,10 +82,8 @@ def featured_image(browser):
     return img_url
 
 def mars_facts():
-
     # Add try/except for error handling
     try:
-
         # Use 'read_html' to scrape the facts table into a dataframe
         df = pd.read_html('https://data-class-mars-facts.s3.amazonaws.com/Mars_Facts/index.html')[0]
 
