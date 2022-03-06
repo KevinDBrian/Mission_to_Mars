@@ -1,10 +1,11 @@
-# Import Splinter, BeautifulSoup, and Pandas
+# Imports
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 import pandas as pd
 import datetime as dt
 from webdriver_manager.chrome import ChromeDriverManager
 
+# --------------------------------------------------------
 
 def scrape_all():
     # Initiate headless driver for deployment
@@ -12,6 +13,7 @@ def scrape_all():
     browser = Browser('chrome', **executable_path, headless=True)
 
     news_title, news_paragraph = mars_news(browser)
+    img_title_urls = mars_img_title_urls(browser)
 
     # Run all scraping functions and store results in a dictionary
     data = {
@@ -19,6 +21,7 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
+        "hemispheres": img_title_urls,
         "last_modified": dt.datetime.now()
     }
 
@@ -26,6 +29,7 @@ def scrape_all():
     browser.quit()
     return data
 
+# --------------------------------------------------------
 
 def mars_news(browser):
 
@@ -44,8 +48,10 @@ def mars_news(browser):
     # Add try/except for error handling
     try:
         slide_elem = news_soup.select_one('div.list_text')
+
         # Use the parent element to find the first 'a' tag and save it as 'news_title'
         news_title = slide_elem.find('div', class_='content_title').get_text()
+        
         # Use the parent element to find the paragraph text
         news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
 
@@ -54,6 +60,7 @@ def mars_news(browser):
 
     return news_title, news_p
 
+# --------------------------------------------------------
 
 def featured_image(browser):
     # Visit URL
@@ -81,9 +88,13 @@ def featured_image(browser):
 
     return img_url
 
+# --------------------------------------------------------
+
 def mars_facts():
+
     # Add try/except for error handling
     try:
+        
         # Use 'read_html' to scrape the facts table into a dataframe
         df = pd.read_html('https://data-class-mars-facts.s3.amazonaws.com/Mars_Facts/index.html')[0]
 
@@ -96,6 +107,44 @@ def mars_facts():
 
     # Convert dataframe into HTML format, add bootstrap
     return df.to_html(classes="table table-striped")
+
+# --------------------------------------------------------
+
+def mars_img_title_urls():
+
+    # Visit the URL 
+    url = 'https://marshemispheres.com/'
+    Browser.visit(url)
+
+    # Create a list to hold the images and titles.
+    hemisphere_image_urls = []
+
+    # Retrieve the image urls and titles for each hemisphere.
+    for i in range(4):
+    
+        # Make a empty dict
+        hemispheres = {}
+    
+        # Find and clink hyperlink
+        Browser.find_by_css('a.product-item h3')[i].click()
+        
+        # Grab the image url and title
+        element = Browser.find_link_by_text('Sample').first
+        
+        img_url = element['href']
+        title = Browser.find_by_css("h2.title").text
+        
+        # Store and append dict with the retrieved info
+        hemispheres["img_url"] = img_url
+        hemispheres["title"] = title
+        hemisphere_image_urls.append(hemispheres)
+    
+        # Browser goes back to original url
+        Browser.back()
+    
+    return hemisphere_image_urls
+
+# --------------------------------------------------------
 
 if __name__ == "__main__":
 
