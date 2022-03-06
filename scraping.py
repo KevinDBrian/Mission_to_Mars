@@ -13,7 +13,6 @@ def scrape_all():
     browser = Browser('chrome', **executable_path, headless=True)
 
     news_title, news_paragraph = mars_news(browser)
-    img_title_urls = mars_img_title_urls(browser)
 
     # Run all scraping functions and store results in a dictionary
     data = {
@@ -21,7 +20,7 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "hemispheres": img_title_urls,
+        "hemispheres": hemispheres(browser),
         "last_modified": dt.datetime.now()
     }
 
@@ -110,11 +109,15 @@ def mars_facts():
 
 # --------------------------------------------------------
 
-def mars_img_title_urls():
+def hemispheres(browser):
 
     # Visit the URL 
     url = 'https://marshemispheres.com/'
-    Browser.visit(url)
+    
+    browser.visit(url)
+
+    # Parse data
+    hemi_soup = soup(browser.html, 'html.parser').find_all('div', class_='item')
 
     # Create a list to hold the images and titles.
     hemisphere_image_urls = []
@@ -126,13 +129,13 @@ def mars_img_title_urls():
         hemispheres = {}
     
         # Find and clink hyperlink
-        Browser.find_by_css('a.product-item h3')[i].click()
+        browser.find_by_css('a.product-item h3')[i].click()
         
         # Grab the image url and title
-        element = Browser.find_link_by_text('Sample').first
+        element = browser.find_link_by_text('Sample').first
         
         img_url = element['href']
-        title = Browser.find_by_css("h2.title").text
+        title = browser.find_by_css("h2.title").text
         
         # Store and append dict with the retrieved info
         hemispheres["img_url"] = img_url
@@ -140,7 +143,7 @@ def mars_img_title_urls():
         hemisphere_image_urls.append(hemispheres)
     
         # Browser goes back to original url
-        Browser.back()
+        browser.back()
     
     return hemisphere_image_urls
 
