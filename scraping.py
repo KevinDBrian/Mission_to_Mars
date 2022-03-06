@@ -113,7 +113,7 @@ def hemispheres(browser):
 
     # Visit the URL 
     url = 'https://marshemispheres.com/'
-    
+
     browser.visit(url)
 
     # Parse data
@@ -145,7 +145,7 @@ def hemispheres(browser):
         # Browser goes back to original url
         browser.back()
     
-    return hemisphere_image_urls
+    return hemispheres
 
 # --------------------------------------------------------
 
