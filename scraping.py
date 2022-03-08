@@ -129,16 +129,17 @@ def hemispheres(browser):
     
         # Find and clink hyperlink
         browser.find_by_css('a.product-item h3')[i].click()
-        
-        # Grab the image url and title
-        find_link = browser.links.find_by_text('Sample').click()
-        img_url = find_link['href']
 
-        title = browser.find_by_css("h2.title").text
+        # Parse
+        hemi_soup = soup(browser.html, 'html.parse')
+        
+        # Grab the title and image url
+        title = hemi_soup.find('h2')
+        img_url = hemi_soup.find('li').a.get('href')
         
         # Store and append dict with the retrieved info
-        hemispheres['img_url'] = f'{url}/{img_url}'
         hemispheres['title'] = title
+        hemispheres['img_url'] = f'{url}/{img_url}'
         hemisphere_image_urls.append(hemispheres)
     
         # Browser goes back to original url
