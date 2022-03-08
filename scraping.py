@@ -1,32 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@KevinDBrian 
-KevinDBrian
-/
-Mission_to_Mars
-Public
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-Mission_to_Mars/scraping.py /
-@KevinDBrian
-KevinDBrian updated files
-Latest commit 2973d5d 21 minutes ago
- History
- 1 contributor
-154 lines (108 sloc)  4.47 KB
-   
 # Imports
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
