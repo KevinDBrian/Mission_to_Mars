@@ -131,7 +131,7 @@ def hemispheres(browser):
         browser.find_by_css('a.product-item h3')[i].click()
         
         # Grab the image url and title
-        find_link = browser.links.find_by_text('Sample').click()
+        find_link = browser.find_link_by_text('Sample').first
         img_url = find_link['href']
 
         title = browser.find_by_css("h2.title").text
