@@ -10,15 +10,22 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     />
   </head>
-  <body>
+  <!-- Added background color -->
+  <body class="container" style="background-color: rgb(200, 100, 75);">
 
-    <div class="container" style="height: 1500px, width: 3000px;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgb(69, 21, 0));">
+    <div>
       <!-- Add Jumbotron to Header -->
+      <!-- Bootstrap additions: jumbotron image, text color chagned to match body color -->>
       <div class="jumbotron text-center" style="background-image: url(static/images/image.png)">
-        <h1>Mission to Mars</h1>
+        <h1 style="color: rgb(200, 100, 75)">Mission to Mars</h1>
+
         <!-- Add a button to activate scraping script -->
-        <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+        <!-- Bootstrap additions: Changed button type to "info" for nice contrasting colors, text underlined-->>
+        <p><u class="btn btn-info btn-lg" 
+          href="/scrape" 
+          role="button" 
+          style="color: black"
+          >Scrape New Data</u></p>
       </div>
 
       <!-- Add section for Mars News -->
@@ -55,6 +62,7 @@
         </div>
       </div> 
 
+      <!-- Section for Mars Hemispheres -->
       <!-- Section for Mars Hemispheres -->
       <div class="row" id="mars-hemispheres">
         <div class="page-header">
